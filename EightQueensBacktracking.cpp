@@ -1,3 +1,11 @@
+/*
+ 
+ There are two types of diagonals, A and B, each of them has (2 * N - 1) kinds.
+ On every diagonal A, col + row = Constant, [0, 2 * N - 1]
+ On every diagonal B, col - row + N - 1 = Constant [0, 2 * N - 1]
+ 
+ */
+
 #include <iostream>
 #include <cstdio>
 #include <cstring>
