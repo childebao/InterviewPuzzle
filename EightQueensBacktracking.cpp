@@ -5,9 +5,7 @@ using namespace std;
 
 /// 8 Quene Puzzle
 const int N = 8;
-bool columnUsed[N];
-bool diagonalUsed1[N * 2 - 1];
-bool diagonalUsed2[N * 2 - 1];
+int columnUsed, diagonalUsed1, diagonalUsed2;
 int columnPosiForRow[N];
 int ans;
 
@@ -33,12 +31,15 @@ void search(int curRow)
   
   for (int c = 0; c < N; ++c)
   {
-    if (!columnUsed[c] && !diagonalUsed1[c + curRow] && !diagonalUsed2[c - curRow + N - 1])
+    if (!(columnUsed & (1 << c)) && !(diagonalUsed1 & (1 << (c + curRow))) && !(diagonalUsed2 & (1 << (c - curRow + N - 1))))
     {
-      columnUsed[c] = diagonalUsed1[c + curRow] = diagonalUsed2[c - curRow + N - 1] = true;
-      columnPosiForRow[curRow] = c;
+      columnUsed |= 1 << c;
+      diagonalUsed1 |= 1 << (c + curRow);
+      diagonalUsed2 |= 1 << (c - curRow + N - 1);
       search(curRow + 1);
-      columnUsed[c] = diagonalUsed1[c + curRow] = diagonalUsed2[c - curRow + N - 1] = false;
+      columnUsed &= (~(1 << c));
+      diagonalUsed1 &= (~(1 << (c + curRow)));
+      diagonalUsed2 &= (~(1 << (c - curRow + N - 1)));
     }
   }
 }
@@ -47,5 +48,6 @@ int main()
 {
   ans = 0;
   search(0);
+  columnUsed = diagonalUsed1 = diagonalUsed2 = 0;
   cout << "Total = " << ans << endl;
 }
