@@ -41,13 +41,13 @@ void search(int curRow)
   {
     if (!(columnUsed & (1 << c)) && !(diagonalUsed1 & (1 << (c + curRow))) && !(diagonalUsed2 & (1 << (c - curRow + N - 1))))
     {
-      columnUsed |= 1 << c;
-      diagonalUsed1 |= 1 << (c + curRow);
-      diagonalUsed2 |= 1 << (c - curRow + N - 1);
+      columnUsed ^= 1 << c;                       //columnUsed != 1 << c;
+      diagonalUsed1 ^= 1 << (c + curRow);         //diagonalUsed1 |= 1 << (c + curRow);
+      diagonalUsed2 ^= 1 << (c - curRow + N - 1); //diagonalUsed2 |= 1 << (c - curRow + N - 1);
       search(curRow + 1);
-      columnUsed &= (~(1 << c));
-      diagonalUsed1 &= (~(1 << (c + curRow)));
-      diagonalUsed2 &= (~(1 << (c - curRow + N - 1)));
+      columnUsed ^= 1 << c;                       //columnUsed &= (~(1 << c));
+      diagonalUsed1 ^= 1 << (c + curRow);         //diagonalUsed1 &= ~(1 << (c + curRow));
+      diagonalUsed2 ^= 1 << (c - curRow + N - 1); //diagonalUsed2 &= ~(1 << (c - curRow + N - 1));
     }
   }
 }
