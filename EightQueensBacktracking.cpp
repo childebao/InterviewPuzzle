@@ -1,3 +1,4 @@
+
 /*
  
  There are two types of diagonals, A and B, each of them has (2 * N - 1) kinds.
@@ -5,7 +6,7 @@
  On every diagonal B, col - row + N - 1 = Constant [0, 2 * N - 1]
  
  nonRecursive() using iteration.
- 
+ nonRecursiveBacktracking() using iteration and backtracking.
  */
 
 #include <iostream>
@@ -121,13 +122,46 @@ void nonRecursive()
   }
 }
 
+
+void nonRecursiveBacktracking()
+{
+  clear();
+  int curRow = 0;
+  
+  memset(columnPosiForRow, -1, sizeof(columnPosiForRow));
+  
+  while (curRow >= 0) {
+    if (curRow >= 8) {
+      output();
+      curRow --;
+      continue;
+    }
+    
+    int c;
+    for (c = columnPosiForRow[curRow] + 1; c < 8; c ++) {
+      columnPosiForRow[curRow] = c;
+      if (check(curRow, c)) {
+        curRow ++;
+        break;
+      }
+    }
+    
+    if (c >= 8) {
+      columnPosiForRow[curRow] = -1;
+      curRow --;
+    }
+  }
+}
+
+
 int main()
 {
-//  clear();
-//  search(0);
+  //  clear();
+  //  search(0);
   
   clear();
   nonRecursive();
+  nonRecursiveBacktracking();
   
   cout << "Total = " << ans << endl;
 }
