@@ -39,7 +39,9 @@ void search(int curRow)
   
   for (int c = 0; c < N; ++c)
   {
-    if (!(columnUsed & (1 << c)) && !(diagonalUsed1 & (1 << (c + curRow))) && !(diagonalUsed2 & (1 << (c - curRow + N - 1))))
+    if (!(columnUsed & (1 << c))
+        && !(diagonalUsed1 & (1 << (c + curRow))) 
+        && !(diagonalUsed2 & (1 << (c - curRow + N - 1))))
     {
       columnUsed ^= 1 << c;                       //columnUsed != 1 << c;
       diagonalUsed1 ^= 1 << (c + curRow);         //diagonalUsed1 |= 1 << (c + curRow);
