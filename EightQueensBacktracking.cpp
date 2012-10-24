@@ -131,12 +131,14 @@ void nonRecursiveBacktracking()
   memset(columnPosiForRow, -1, sizeof(columnPosiForRow));
   
   while (curRow >= 0) {
+    //Output
     if (curRow >= 8) {
       output();
       curRow --;
       continue;
     }
     
+    //Search for the next available position for curRow
     int c;
     for (c = columnPosiForRow[curRow] + 1; c < 8; c ++) {
       columnPosiForRow[curRow] = c;
@@ -146,6 +148,7 @@ void nonRecursiveBacktracking()
       }
     }
     
+    //No available position found
     if (c >= 8) {
       columnPosiForRow[curRow] = -1;
       curRow --;
