@@ -1,4 +1,3 @@
-
 /*
  
  isSquare!
@@ -27,7 +26,6 @@ int dis(const Point &p1, const Point &p2)
 
 int sum(const Point &p1, const Point &p2, const Point &p3)
 {
-  cout << dis(p1, p2) + dis(p1, p3) + dis(p2, p3) << endl;
   return dis(p1, p2) + dis(p1, p3) + dis(p2, p3);
 }
 
