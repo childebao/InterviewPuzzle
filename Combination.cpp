@@ -110,7 +110,7 @@ int nums[20];
 void output(int a[])
 {
   for (int i = 0; i < K; ++i)
-    cout << a[nums[i] - 1] << " ";
+    cout << a[nums[i]] << " ";
   cout << endl;
 }
 
@@ -124,6 +124,34 @@ void search3(int curK, int curNum, int a[])
   }
 }
 
+void iteration(int a[], int n, int k)
+{
+  int count = 0;
+  nums[count ++] = 0;
+  
+  while (count >= 0) {
+    if (count >= k) {
+      output(a);
+      while (++ nums[count - 1] < n) { output(a); }
+      -- count;
+      nums[count - 1] ++;
+      continue;
+    }
+    
+    if (nums[count - 1] >= n - k + count) {
+      count --;
+      if (count >= 0) {
+        nums[count - 1] ++;
+      }
+      continue;
+    }
+    
+    nums[count] = nums[count - 1] + 1;
+    count ++;
+  }
+}
+
+
 int main()
 {
   int n, k;
@@ -134,10 +162,12 @@ int main()
       cin >> a[i];
     }
     
-    search2(a, 0, n, k);
+//    search2(a, 0, n, k);
     
     N = n; K = k;
-    search3(0, 1, a);
+//    search3(0, 1, a);
+    
+    iteration(a, N, K);
   }
   
   return 0;
