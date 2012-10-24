@@ -38,7 +38,7 @@ using namespace std;
 bool flag[100];
 int ans;
 
-void search(int a[], int begin, int n, int k)
+void search1(int a[], int begin, int n, int k)
 {
   if (k == 0) {
     cout << ++ans << ":" << endl;
@@ -74,10 +74,10 @@ void search(int a[], int begin, int n, int k)
   }
   
   flag[begin] = true;
-  search(a, begin + 1, n, k - 1);
+  search1(a, begin + 1, n, k - 1);
   
   flag[begin] = false;
-  search(a, begin + 1, n, k);
+  search1(a, begin + 1, n, k);
 }
 
 void search2(int a[], int begin, int n, int k)
@@ -133,7 +133,7 @@ int main()
       cin >> a[i];
     }
     
-    search(a, 0, n, k);
+    search1(a, 0, n, k);
   }
   
   return 0;
