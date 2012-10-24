@@ -123,6 +123,28 @@ void search2(int a[], int begin, int n, int k)
 }
 
 
+/// combination generation
+
+int N, K;
+int nums[20];
+
+void output(int a[])
+{
+  for (int i = 0; i < K; ++i)
+    cout << a[nums[i] - 1] << " ";
+  cout << endl;
+}
+
+void search3(int curK, int curNum, int a[])
+{
+  if (curK == K) return output(a);
+  for (int i = curNum; i <= N; ++i)
+  {
+    nums[curK] = i;
+    search3(curK + 1, i + 1, a);
+  }
+}
+
 int main()
 {
   int n, k;
@@ -133,7 +155,10 @@ int main()
       cin >> a[i];
     }
     
-    search1(a, 0, n, k);
+//    search1(a, 0, n, k);
+    
+    N = n; K = k;
+    search3(0, 1, a);
   }
   
   return 0;
