@@ -1,33 +1,26 @@
 /*
- 
- Input:
+ Combination Generation:
+
+ Sample Input:
  
  4 4
  1 2 3 4
  5 3
- 1 2 3 4 5
+ 2 4 6 8 10
  
- Output:
- 1:
+ Sample Output:
  1 2 3 4 
  
- 1:
- 1 2 5 
- 
- 2:
- 1 3 5 
- 
- 3:
- 1 4 5 
- 
- 4:
- 2 3 5 
- 
- 5:
- 2 4 5 
- 
- 6:
- 3 4 5 
+ 2 4 6 
+ 2 4 8 
+ 2 4 10 
+ 2 6 8 
+ 2 6 10 
+ 2 8 10 
+ 4 6 8 
+ 4 6 10 
+ 4 8 10 
+ 6 8 10 
  
 
  */
@@ -38,71 +31,6 @@ using namespace std;
 bool flag[100];
 int ans;
 
-void search1(int a[], int begin, int n, int k)
-{
-  if (k == 0) {
-    cout << ++ans << ":" << endl;
-    
-    for (int i = 0; i < n; i ++) {
-      if (flag[i]) {
-        cout << a[i] << ' ';
-      }
-    }
-    cout << endl << endl;
-    return;
-  }
-  
-  if (n - begin < k) {
-    return;
-  }
-  
-  if (n - begin == k) {
-    cout << ++ans << ":" << endl;
-    
-    for (int i = 0; i < begin; i ++) {
-      if (flag[i]) {
-        cout << a[i] << ' ';
-      }
-    }
-    
-    for (int i = begin; i < n; i ++) {
-      cout << a[i] << ' ';
-    }
-    
-    cout << endl << endl;
-    return;
-  }
-  
-  flag[begin] = true;
-  search1(a, begin + 1, n, k - 1);
-  
-  flag[begin] = false;
-  search1(a, begin + 1, n, k);
-}
-
-void search2(int a[], int begin, int n, int k)
-{
-  if (k == 0) {
-    cout << ++ans << ":" << endl;
-    
-    for (int i = 0; i < n; i ++) {
-      if (flag[i]) {
-        cout << a[i] << ' ';
-      }
-    }
-    cout << endl << endl;
-    return;
-  }
-  
-  for (int i = begin; i < n; i ++) {
-    flag[i] = true;
-    search2(a, i + 1, n, k - 1);
-    flag[i] = false;
-  }
-}
-
-
-/// combination generation
 
 int N, K;
 int nums[20];
@@ -114,31 +42,24 @@ void output(int a[])
   cout << endl;
 }
 
-void search3(int curK, int curNum, int a[])
+void recursive(int curK, int curNum, int a[])
 {
   if (curK == K) return output(a);
-  for (int i = curNum; i <= N; ++i)
+  for (int i = curNum; i < N; ++i)
   {
     nums[curK] = i;
-    search3(curK + 1, i + 1, a);
+    recursive(curK + 1, i + 1, a);
   }
 }
 
-void iteration(int a[], int n, int k)
-{
+void iteration(int a[])
+{  
   int count = 0;
   nums[count ++] = 0;
   
   while (count >= 0) {
-    if (count >= k) {
-      output(a);
-      while (++ nums[count - 1] < n) { output(a); }
-      -- count;
-      nums[count - 1] ++;
-      continue;
-    }
-    
-    if (nums[count - 1] >= n - k + count) {
+    //When left numbers is not enough
+    if (nums[count - 1] >= N - K + count) {
       count --;
       if (count >= 0) {
         nums[count - 1] ++;
@@ -146,11 +67,18 @@ void iteration(int a[], int n, int k)
       continue;
     }
     
+    //Output when K numbers generated
+    if (count >= K) {
+      output(a);
+      nums[count - 1] ++;
+      continue;
+    }
+    
+    //Generate next number
     nums[count] = nums[count - 1] + 1;
     count ++;
   }
 }
-
 
 int main()
 {
@@ -162,12 +90,10 @@ int main()
       cin >> a[i];
     }
     
-//    search2(a, 0, n, k);
-    
     N = n; K = k;
-//    search3(0, 1, a);
-    
-    iteration(a, N, K);
+    recursive(0, 0, a);
+    cout << endl;
+    iteration(a);
   }
   
   return 0;
