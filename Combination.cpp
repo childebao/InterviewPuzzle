@@ -40,7 +40,15 @@ int ans;
 
 void search(int a[], int begin, int n, int k)
 {
-  if (begin >= n) {
+  if (k == 0) {
+    cout << ++ans << ":" << endl;
+    
+    for (int i = 0; i < n; i ++) {
+      if (flag[i]) {
+        cout << a[i] << ' ';
+      }
+    }
+    cout << endl << endl;
     return;
   }
   
@@ -70,6 +78,48 @@ void search(int a[], int begin, int n, int k)
   
   flag[begin] = false;
   search(a, begin + 1, n, k);
+}
+
+void search2(int a[], int begin, int n, int k)
+{
+  if (k == 0) {
+    cout << ++ans << ":" << endl;
+    
+    for (int i = 0; i < n; i ++) {
+      if (flag[i]) {
+        cout << a[i] << ' ';
+      }
+    }
+    cout << endl << endl;
+    return;
+  }
+    
+  if (n - begin < k) {
+    return;
+  }
+  
+  if (n - begin == k) {   
+    cout << ++ans << ":" << endl;
+
+    for (int i = 0; i < begin; i ++) {
+      if (flag[i]) {
+        cout << a[i] << ' ';
+      }
+    }
+    
+    for (int i = begin; i < n; i ++) {
+      cout << a[i] << ' ';
+    }
+    
+    cout << endl << endl;
+    return;
+  }
+  
+  for (int i = begin; i < n; i ++) {
+    flag[i] = true;
+    search2(a, i + 1, n, k - 1);
+    flag[i] = false;
+  }
 }
 
 
