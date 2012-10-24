@@ -93,27 +93,6 @@ void search2(int a[], int begin, int n, int k)
     cout << endl << endl;
     return;
   }
-    
-  if (n - begin < k) {
-    return;
-  }
-  
-  if (n - begin == k) {   
-    cout << ++ans << ":" << endl;
-
-    for (int i = 0; i < begin; i ++) {
-      if (flag[i]) {
-        cout << a[i] << ' ';
-      }
-    }
-    
-    for (int i = begin; i < n; i ++) {
-      cout << a[i] << ' ';
-    }
-    
-    cout << endl << endl;
-    return;
-  }
   
   for (int i = begin; i < n; i ++) {
     flag[i] = true;
@@ -155,7 +134,7 @@ int main()
       cin >> a[i];
     }
     
-//    search1(a, 0, n, k);
+    search2(a, 0, n, k);
     
     N = n; K = k;
     search3(0, 1, a);
