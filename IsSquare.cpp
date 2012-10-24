@@ -25,7 +25,7 @@ int dis(const Point &p1, const Point &p2)
   return square(p1.x - p2.x) + square(p1.y - p2.y);
 }
 
-bool sum(const Point &p1, const Point &p2, const Point &p3)
+bool isIsoscelesRightTriangle(const Point &p1, const Point &p2, const Point &p3)
 {
   return (dis(p1, p2) == dis(p1, p3) && 2 * dis(p1, p2) == dis(p2, p3))
   || (dis(p1, p3) == dis(p2, p3) && dis(p1, p2) == 2 * dis(p2, p3));
@@ -33,7 +33,7 @@ bool sum(const Point &p1, const Point &p2, const Point &p3)
 
 bool isSquare(const Point &p1, const Point &p2, const Point &p3, const Point &p4)
 {
-  return sum(p1, p2, p3) && sum(p1, p2, p4);
+  return isIsoscelesRightTriangle(p1, p2, p3) && isIsoscelesRightTriangle(p1, p2, p4);
 }
 
 int main()
