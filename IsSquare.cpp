@@ -33,7 +33,7 @@ bool sum(const Point &p1, const Point &p2, const Point &p3)
 
 bool isSquare(const Point &p1, const Point &p2, const Point &p3, const Point &p4)
 {
-  return sum(p1, p2, p3) && sum(p1, p2, p4) &&  sum(p1, p3, p4) && sum(p2, p3, p4);
+  return sum(p1, p2, p3) && sum(p1, p2, p4);
 }
 
 int main()
