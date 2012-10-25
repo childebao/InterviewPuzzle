@@ -13,21 +13,16 @@ using namespace std;
 
 #define MAX_INT 2147483647
 
-struct HeapNode {
-  int posi, value;
-  HeapNode (int p, int v) : posi(p), value(v) {}
-};
-
 struct MinHeap {
-  vector<HeapNode> heap;
+  vector<int> heap;
   
-  MinHeap() { heap.push_back(HeapNode(0, MAX_INT)); }
+  MinHeap() { heap.push_back(MAX_INT); }
   
   void switchUp(int position) {
     int p = position, f = p >> 1;
-    HeapNode tmp = heap[p];
+    int tmp = heap[p];
     while (f > 0) {
-      if(tmp.value < heap[f].value) heap[p] = heap[f]; else break;
+      if(tmp < heap[f]) heap[p] = heap[f]; else break;
       p = f; f = f >> 1;
     }
     heap[p] = tmp;
@@ -35,17 +30,17 @@ struct MinHeap {
   
   void switchDown(int position) {
     int p = position, c = p << 1;
-    HeapNode tmp = heap[p];
+    int tmp = heap[p];
     while (c < heap.size()) {
-      if(c < heap.size() - 1 && heap[c + 1].value < heap[c].value) c++;
-      if(heap[c].value < tmp.value) heap[p] = heap[c]; else break;
+      if(c < heap.size() - 1 && heap[c + 1] < heap[c]) c++;
+      if(heap[c] < tmp) heap[p] = heap[c]; else break;
       p = c; c = c << 1;
     }
     heap[p] = tmp;
   }
 
   void push(int n) {
-    heap.push_back(HeapNode(heap.size() - 1, n));
+    heap.push_back(n);
     switchUp(heap.size() - 1);
   }
   
@@ -58,8 +53,8 @@ struct MinHeap {
   }
   
   int min() {
-    if (heap.size() == 1) { return heap[0].value; }
-    return heap[1].value;
+    if (heap.size() == 1) { return heap[0]; }
+    return heap[1];
   }
   
   bool isEmpty() { return heap.size() <= 1; }
