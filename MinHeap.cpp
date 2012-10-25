@@ -1,8 +1,7 @@
-
 /*
  
  Min-Heap:
- A[parent(i) <= A[i]
+ A[parent(i)] <= A[i]
  
  */
 
