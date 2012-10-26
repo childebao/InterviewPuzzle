@@ -1,7 +1,7 @@
 /*
  
- There are two int arrays, a[], b[], and a constant value C,
- find all pairs numbers that a[i] + b[j] = C
+ There are two sorted int arrays, who are in ascending order, a[] and b[], 
+ and a constant value C. Find all pairs numbers that a[i] + b[j] = C
  
  1. In fun solve1(): 
  Time complexity: O(lenA * log(lenB)) if lenA <= lenB
