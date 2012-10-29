@@ -25,10 +25,11 @@ void initPrimes()
   for (int i = 2; i < 500000; i ++) {
     if (!flag[i]) {
       primes.push_back(i);
-      for (long long j = (long long)i * i; j < 500000; j += i) {
-        if (j < 500000) {
-          flag[j] = true;
-        }
+      
+      long long j = (long long)i * i;
+      while (j < 500000) {
+        flag[j] = true;
+        j += i;
       }
     }
   }
