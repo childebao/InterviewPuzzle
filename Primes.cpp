@@ -16,18 +16,18 @@
 using namespace std;
 
 vector<int> primes;
-bool flag[500100];
+bool flag[1100];
 
 void initPrimes()
 {
   memset(flag, false, sizeof(flag));
   
-  for (int i = 2; i < 500000; i ++) {
+  for (int i = 2; i < 1000; i ++) {
     if (!flag[i]) {
       primes.push_back(i);
       
-      long long j = (long long)i * i;
-      while (j < 500000) {
+      int j = i * i;
+      while (j < 1000) {
         flag[j] = true;
         j += i;
       }
@@ -59,6 +59,10 @@ void deal(int N)
     if (count > 0) {
       cout << primes[i] << '(' << count << ')' << ' ';
     }
+  }
+  
+  if (N > 1) {
+    cout << N << "(1)" << endl;
   }
 
   cout << endl;
