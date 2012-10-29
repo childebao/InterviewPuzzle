@@ -48,27 +48,20 @@ void deal(int N)
     cout << "Invalid input" << endl;
     return;
   }
-  
-  int isPrime = true;
-  
-  for (int i = 0; i < primes.size() && primes[i] < N; i ++) {
-    int count = 0, tmp = N;
-    while (tmp > 0 && tmp % primes[i] == 0) {
+    
+  for (int i = 0; i < primes.size() && primes[i] <= N; i ++) {
+    int count = 0;
+    while (N > 0 && N % primes[i] == 0) {
       count ++;
-      tmp /= primes[i];
-      isPrime = false;
+      N /= primes[i];
     }
     
     if (count > 0) {
       cout << primes[i] << '(' << count << ')' << ' ';
     }
   }
-  
-  if (isPrime) {
-    cout << "It is prime." << endl;
-  } else {
-    cout << endl;
-  }
+
+  cout << endl;
 }
 
 int main()
