@@ -6,6 +6,9 @@
  
  Sample Output: 3
  
+ 
+ http://poj.org/problem?id=1159
+ 
  */
 
 #include <iostream>
@@ -13,48 +16,68 @@
 
 using namespace std;
 
-string reverse(string s)
+short int dp[5001][5001];
+
+void reverse(char s[], char t[], int N)
 {
-  int head = 0, tail = s.length() - 1;
-  while (head < tail) {
-    swap(s[head ++], s[tail --]);
+  t[0] = s[0];
+  
+  int head = 1, tail = N;
+  while (head <= tail) {
+    t[head] = s[tail];
+    t[tail] = s[head];
+    head ++, tail --;
   }
-  return s;
 }
 
-int deal(string s)
+short int min(short int a, short int b)
 {
-  string t = reverse(s);
-  s = '0' + s;
-  t = '0' + t;
+  return a <= b ? a : b;
+}
+
+short int deal(char s[], int N)
+{
+  int len = N + 1;
+  char t[5001];
+  reverse(s, t, N);
+    
+  dp[0][0] = 0;
   
-  int dp[s.length()][s.length()][2];
-  
-  dp[0][0][0] = dp[0][0][1] = 0;
-  
-  for (int i = 1; i < s.length(); i ++) {
-    dp[0][i][0] = dp[i][0][0] = i;
-    dp[0][i][1] = dp[i][0][1] = i - 1;
+  for (int i = 1; i < len; i ++) {
+    dp[0][i] = dp[i][0] = i;
   }
   
-  for (int i = 1; i < s.length(); i ++) {
-    for (int j = 1; j < s.length() - i; j ++) {
+  for (int i = 1; i < len; i ++) {
+    for (int j = 1; j < len - i; j ++) {
       if (s[i] == t[j]) {
-        dp[i][j][0] = dp[i - 1][j - 1][0];
-        dp[i][j][1] = min(dp[i - 1][j][0], dp[i][j - 1][0]);
+        dp[i][j] = dp[i - 1][j - 1];
         continue;
       }
       
-      dp[i][j][0] = min(dp[i - 1][j][0] + 1, dp[i][j - 1][0] + 1);
-      dp[i][j][1] = min(min(dp[i - 1][j][0], dp[i][j - 1][0]), dp[i - 1][j - 1][0] + 1);
-//      cout << i << ' ' << j << ' ' << dp[i][j][0] << ' ' << dp[i][j][1] << endl;
+      dp[i][j] = min(dp[i - 1][j] + 1, dp[i][j - 1] + 1);
     }
   }
   
-  int ans = s.length();
+  short int ans = len;
   
-  for (int i = 0; i < s.length(); i ++) {
-    ans = min(ans, min(dp[i][s.length() - 1 - i][0], dp[i][s.length() - 1 - i][1]));
+  for (int i = 0; i < len; i ++) {
+    int j = len - 1 - i;
+    if (i > 0 && s[i] == t[j]) {
+      ans = min(ans, min(dp[i][len - 1 - i], min(dp[i - 1][j], dp[i][j - 1])));
+      continue;
+    }
+    
+    if (i > 0 && j > 0) {
+      short int tmp = min(min(dp[i - 1][j], dp[i][j - 1]), dp[i - 1][j - 1] + 1);
+      ans = min(min(ans, tmp), dp[i][j]);
+      continue;
+    }
+    
+    if (i == 0) {
+      ans = min(ans, j - 1);
+    } else {
+      ans = min(ans, i - 1);
+    }
   }
   
   return ans;
@@ -62,11 +85,16 @@ int deal(string s)
 
 int main()
 {
-  string s;
+  char s[5010];
+  int N;
+  scanf("%d", &N);
+  getchar();
   
-  while (cin >> s) {
-    cout << deal(s) << endl;
+  s[0] = '-';
+  for (int i = 1; i <= N; i ++) {
+    s[i] = getchar();
   }
   
+  printf("%d\n", deal(s, N));
   return 0;
 }
