@@ -17,8 +17,8 @@
                            or A2 = dp[i][i + 2] + s[i] * s[i + 2] * s[i + 3]
        dp[i][i + 3] = min(A1, A2);
  
- Then, dp[i][i + L - 1] = min(A1, A2, ... Ak)  (k = L - 2)
-                              Ak = dp[i][i + k] + s[i] * s[i + k] * s[i + L - 1];
+ Then, dp[i][i + L - 1] = min(A1, A2, ... Ak)  (1 <= k <= L - 2)
+                              Ak = dp[i][i + k] + dp[i + k][i + L - 1] + s[i] * s[i + k] * s[i + L - 1];
  
  So the answer is dp[0][N - 1];
  
@@ -40,10 +40,11 @@ int deal()
   
   for (int L = 3; L <= N; L ++) {
     for (int i = 0; i < N - L + 1; i ++) {
-      int j = L + i - 1;
+      int j = i + L - 1;
       dp[i][j] = 999999999;
-      for (int k = i + 1; k < j; k ++) {
-        int sum = dp[i][k] + dp[k][j] + s[i] * s[k] * s[j];
+      
+      for (int k = 1; k < L - 1; k ++) {
+        int sum = dp[i][i + k] + dp[i + k][j] + s[i] * s[i + k] * s[j];
         dp[i][j] = min(dp[i][j], sum);
       }
     }
