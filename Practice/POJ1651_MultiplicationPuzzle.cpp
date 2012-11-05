@@ -38,7 +38,6 @@ int deal()
 {  
   memset(dp, 0, sizeof(dp));
   
-
   for (int L = 3; L <= N; L ++) {
     for (int i = 0; i < N - L + 1; i ++) {
       int j = L + i - 1;
