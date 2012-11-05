@@ -22,6 +22,10 @@
  
  So the answer is dp[0][N - 1];
  
+ g[i][j] saves the index of the last number selected between i and j.
+ 
+ Function print(s,t,m), print the numbers in order of who is selected first.
+ 
  */
 
 #include <iostream>
@@ -33,11 +37,20 @@ using namespace std;
 int N;
 int s[M];
 int dp[M][M];
+int g[M][M];
+
+void print(int s, int t, int m)
+{
+  if (m == 0) return;
+
+  print(s, m, g[s][m]);
+  print(m, t, g[m][t]);
+  
+  cout << m << ' ';
+}
 
 int deal()
-{  
-  memset(dp, 0, sizeof(dp));
-  
+{
   for (int L = 3; L <= N; L ++) {
     for (int i = 0; i < N - L + 1; i ++) {
       int j = i + L - 1;
@@ -45,22 +58,28 @@ int deal()
       
       for (int k = 1; k < L - 1; k ++) {
         int sum = dp[i][i + k] + dp[i + k][j] + s[i] * s[i + k] * s[j];
-        dp[i][j] = min(dp[i][j], sum);
+        if (dp[i][j] > sum) {
+          dp[i][j] = sum;
+          g[i][j] = i + k;
+        }
       }
     }
   }
 
+  print(0, N - 1, g[0][N - 1]);
+  cout << endl;
+  
   return dp[0][N - 1];
 }
 
 int main()
 {
-  cin >> N;
+  scanf("%d", &N);
   for (int i = 0; i < N; i ++) {
-    cin >> s[i];
+    scanf("%d", &s[i]);
   }
   
-  cout << deal() << endl;
+  printf("%d\n", deal());
   
   return 0;
 }

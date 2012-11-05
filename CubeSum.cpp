@@ -1,80 +1,85 @@
 /*
  
- 3 4
- 2 3 4 5
- 2 4 8 3
- 9 3 4 9
+ Sample Input:
+ 5
+ 10 1 50 20 5
  
- 0 0 1 1 
- 1 1 2 2
- 2 2 1 1
+ Sample Output: 
+ 1150
+ 
+ http://poj.org/problem?id=1651
+ 
+ Hint:
+ dp[i][j] indicates the minimal sum that clears those numbers between i and j.
+ 
+ It is easy to calculate the dp[i][i + 2], the sum is s[i] * s[i + 1] * s[i + 2];
+ Then, dp[i][i + 3], could be A1 = s[i] * s[i + 1] * s[i + 3] + dp[i + 1][i + 3]
+                           or A2 = dp[i][i + 2] + s[i] * s[i + 2] * s[i + 3]
+       dp[i][i + 3] = min(A1, A2);
+ 
+ Then, dp[i][i + L - 1] = min(A1, A2, ... Ak)  (1 <= k <= L - 2)
+                              Ak = dp[i][i + k] + dp[i + k][i + L - 1] + s[i] * s[i + k] * s[i + L - 1];
+ 
+ So the answer is dp[0][N - 1];
+ 
+ g[i][j] saves the index of the last number selected between i and j.
+ 
+ Function print(s,t,m), print the numbers in order of who is selected first.
+ 
  */
 
 #include <iostream>
+#include <string>
+
 using namespace std;
 
-//n rows, m cols
-void init(int **a, int h, int w)
+#define M 101
+int N;
+int s[M];
+int dp[M][M];
+int g[M][M];
+
+void print(int s, int t, int m)
 {
-  for (int j = 1; j < w; j ++) {
-    a[0][j] += a[0][j - 1];
-  }
-  for (int i = 1; i < h; i ++) {
-    a[i][0] += a[i - 1][0];
-    
-    for (int j = 1; j < w; j ++) {
-      a[i][j] += a[i - 1][j] + a[i][j - 1] - a[i-1][j-1]; 
-    }
-  }
+  if (m == 0) return;
+
+  print(s, m, g[s][m]);
+  print(m, t, g[m][t]);
+  
+  cout << m << ' ';
 }
 
-int query(int **a, int r, int c, int h, int w)
+int deal()
 {
-  if (r == 0 && c == 0) {
-    return a[h - 1][w - 1];
+  for (int L = 3; L <= N; L ++) {
+    for (int i = 0; i < N - L + 1; i ++) {
+      int j = i + L - 1;
+      dp[i][j] = 999999999;
+      
+      for (int k = 1; k < L - 1; k ++) {
+        int sum = dp[i][i + k] + dp[i + k][j] + s[i] * s[i + k] * s[j];
+        if (dp[i][j] > sum) {
+          dp[i][j] = sum;
+          g[i][j] = i + k;
+        }
+      }
+    }
   }
+
+  print(0, N - 1, g[0][N - 1]);
+  cout << endl;
   
-  if (r == 0) {
-    return a[r + h - 1][c + w - 1] - a[r + h - 1][c - 1];
-  }
-  
-  if (c == 0) {
-    return a[r + h - 1][c + w - 1] - a[r - 1][c + w - 1];
-  }
-  
-  return a[r + h - 1][c + w - 1] + a[r - 1][c - 1] - a[r + h - 1][c - 1] - a[r - 1][c + w - 1];
+  return dp[0][N - 1];
 }
 
 int main()
 {
-  int n, m;
-  cin >> n >> m;
-  int **a = new int * [n];
-  
-  for (int i = 0; i < n; i ++) {
-    a[i] = new int[m];
-    
-    for (int j = 0; j < m; j ++) {
-      cin >> a[i][j];
-    }
+  scanf("%d", &N);
+  for (int i = 0; i < N; i ++) {
+    scanf("%d", &s[i]);
   }
   
-  init(a, n, m);
-  
-  cout << endl << endl;
-  for (int i = 0; i < n; i ++) {
-    for (int j = 0; j < m; j ++) {
-      cout << a[i][j] << ' ';
-    }
-    cout << endl;
-  }
-  
-  cout << endl;
-  
-  int r, c, h, w;
-  while (cin >> r >> c >> h >> w) {
-    cout << query(a, r, c, h, w) << endl;
-  }
+  printf("%d\n", deal());
   
   return 0;
 }
