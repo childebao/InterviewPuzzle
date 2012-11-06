@@ -12,6 +12,9 @@
  1. Move tail forward to find the shortest substring from head to tail which meets the conditions.
  2. Then move head forward to find the longgest substring from head to tail which contains (patternCount - 1) characters.
     Then go to step 1.
+ 
+ Time Complexity:
+ O(source.length()). becuase every char in source string would at most be checked twice.
  */
 
 #include <iostream>
