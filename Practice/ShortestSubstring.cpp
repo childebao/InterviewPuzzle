@@ -35,21 +35,21 @@ void reset(int hash[])
   }
 }
 
-int flagHash(string s, int hash[])
+int flagString(string s, int hash[])
 {
   reset(hash);
   int c = 0;
   for (int i = 0; i < pattern.length(); i ++) {
-    if (!hash[s[i]]) { hash[s[i]] = true; c ++;};
+    if (!hash[s[i]]) { hash[s[i]] = 1; c ++;};
   }
   return c;
 }
 
 void deal()
 {
-  int isInPattern[256], hasFound[256];
-  int patternCount = flagHash(pattern, isInPattern);
-  reset(hasFound);
+  int isInPattern[256], charCnt[256];
+  int patternCount = flagString(pattern, isInPattern);
+  reset(charCnt);
   
   int head = 0, tail = -1, count = 0, N = source.length();
   int ans = source.length(), posi = 0;
@@ -59,16 +59,16 @@ void deal()
       tail ++;
       
       if (isInPattern[source[tail]]) {
-        if (!hasFound[source[tail]]) count ++;
-        hasFound[source[tail]] ++;
+        if (!charCnt[source[tail]]) count ++;
+        charCnt[source[tail]] ++;
       }
     }
     
     while (count == patternCount && head < N) {
       if (isInPattern[source[head]]) {
-        hasFound[source[head]] --;
+        charCnt[source[head]] --;
         
-        if (hasFound[source[head]] == 0) {
+        if (charCnt[source[head]] == 0) {
           count --;
           
           if (ans > tail - head + 1) {
