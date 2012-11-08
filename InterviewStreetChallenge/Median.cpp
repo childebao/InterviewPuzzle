@@ -1,7 +1,3 @@
-/*
- Don't forget those negative numbers!
-*/
-
 #include <iostream>
 #include <algorithm>
 
@@ -30,17 +26,27 @@ int find(long long x, long long a[], int N, int &index)
   return -1;
 }
 
+void printAverage(long long a, long long b)
+{
+  if (a + b < 0) {
+    printf("-");
+    printAverage(-a, -b);
+    return;
+  }
+  
+  if ((a + b) % 2 != 0) {
+    printf("%lld.5\n", (a + b) / 2);
+  } else {
+    printf("%lld\n", (a + b) / 2);
+  }
+}
+
 void printMedian(long long a[], int N)
 {
   if (N == 0) {
     printf("Wrong!\n");
   } else if (N % 2 == 0) {
-    if ((a[N/2] + a[N/2 - 1]) % 2 != 0) {
-      printf("%lld.5\n", (a[N/2] + a[N/2 - 1]) / 2);
-    } else {
-      printf("%lld\n", (a[N/2] + a[N/2 - 1]) / 2);
-    }
-    
+    printAverage(a[N/2], a[N/2 - 1]);
   } else {
     printf("%lld\n", a[N/2]);
   }
