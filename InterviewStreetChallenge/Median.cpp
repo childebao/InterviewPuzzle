@@ -1,3 +1,11 @@
+/*
+ 
+ Don't forget those negative numbers!
+ 
+ BUGS:
+ -1 / 2 = 0 not -0;
+ */
+
 #include <iostream>
 #include <algorithm>
 
