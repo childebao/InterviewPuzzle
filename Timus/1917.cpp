@@ -5,19 +5,6 @@
 #include <iostream>
 #include <algorithm>
 #include <vector>
-
-using namespace std;
-
-
-
-
-/*
- Timus 1917
- */
-
-#include <iostream>
-#include <algorithm>
-#include <vector>
 #include <queue>
 #include <utility>
 #include <map>
