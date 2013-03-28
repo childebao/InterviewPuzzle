@@ -46,9 +46,9 @@ bool update(vector<int> & one, vector<int> & two, int & min, int t)
 
 void output(const vector<int> & v, int min)
 {
-  cout << N - min - 1 << '(' << a[min] << ')' << ' ';
+  cout << min << '(' << a[min] << ')' << ' ';
   for (int i = v.size() - 1; i >= 0; i --) {
-    cout << N - v[i] - 1 << '(' << a[v[i]] << ')' << ' ';
+    cout << v[i] << '(' << a[v[i]] << ')' << ' ';
   }
   
   cout << endl;
@@ -60,9 +60,9 @@ void deal()
   vector<int> two;
   int min;
   
-  int i = 0;
-  while (i < N) {
-    if (update(one, two, min, i ++)) {
+  int i = N - 1;
+  while (i >= 0) {
+    if (update(one, two, min, i --)) {
       output(two, min);
       return;
     }
@@ -86,7 +86,6 @@ int main()
     for (int i = 0; i < N; i ++)
       cin >> a[i];
     
-    reverse();
     deal();
   }
   
