@@ -5,7 +5,7 @@
  *
  * 1. Vector one and two, save current found increasing subsequence's index.
  * 2. Max length of one is 1, max length of two is 2.
- * 3. Integer minimal saves the third index whose value is less than two[1]
+ * 3. Integer min save the third index
  *
 */
 
@@ -46,11 +46,12 @@ bool update(vector<int> & one, vector<int> & two, int & min, int t)
 
 void output(const vector<int> & v, int min)
 {
-  for (int i = 0; i < v.size(); i ++) {
-    cout << v[i] << '(' << a[v[i]] << ')' << ' ';
+  cout << N - min - 1 << '(' << a[min] << ')' << ' ';
+  for (int i = v.size() - 1; i >= 0; i --) {
+    cout << N - v[i] - 1 << '(' << a[v[i]] << ')' << ' ';
   }
-
-  cout << min << '(' << a[min] << ')' << endl;
+  
+  cout << endl;
 }
 
 void deal()
@@ -70,6 +71,14 @@ void deal()
   cout << "NONE" << endl;
 }
 
+void reverse()
+{
+  int b = 0, e = N - 1;
+  while (b < e) {
+    swap(a[b ++], a[e --]);
+  }
+}
+
 int main()
 {
   while (cin >> N)
@@ -77,6 +86,7 @@ int main()
     for (int i = 0; i < N; i ++)
       cin >> a[i];
     
+    reverse();
     deal();
   }
   
