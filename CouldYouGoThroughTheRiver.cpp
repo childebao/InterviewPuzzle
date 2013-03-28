@@ -20,7 +20,7 @@
 using namespace std;
 
 int a[1000], N;
-char river[1000];
+string river;
 const int LEN = 100;
 int f[LEN][LEN];
 int caled[LEN][LEN];
@@ -60,8 +60,8 @@ bool isReachable()
 
 int main()
 {
-  while (cin.getline(river, 1000)) {
-    N = sizeof(river);
+  while (getline(cin, river)) {
+    N = river.length();
     if (isReachable()) {
       cout << "YES" << endl;
     } else {
