@@ -72,14 +72,6 @@ void deal()
   cout << "NONE" << endl;
 }
 
-void reverse()
-{
-  int b = 0, e = N - 1;
-  while (b < e) {
-    swap(a[b ++], a[e --]);
-  }
-}
-
 int main()
 {
   while (cin >> N)
