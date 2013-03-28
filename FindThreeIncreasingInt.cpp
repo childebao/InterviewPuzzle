@@ -3,7 +3,8 @@
  * Given a array of integers, find 3 indexes i,j,k such that, i < j < k and a[i] < a[j] < a[k]. 
  * Could you find possible in O(n) algorithm.
  *
- * 1. Vector one and two, save current found increasing subsequence's index.
+ * Iterate the array from end to beginning, the problem is finding three decreasing integers:
+ * 1. Vector one and two, save current found decreasing subsequence's index.
  * 2. Max length of one is 1, max length of two is 2.
  * 3. Integer min save the third index
  *
