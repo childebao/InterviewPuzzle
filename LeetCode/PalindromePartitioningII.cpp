@@ -1,3 +1,10 @@
+/*
+ *
+ * At first I used an N * N * N time comlexity DP, saves m[i][j], which would TLE.
+ * In fact, we just need to save m[i] because we always need a palindrome in the tail.
+ *
+*/
+
 class Solution {
 public:
   int minCut(string s) {
