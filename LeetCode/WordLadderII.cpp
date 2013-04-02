@@ -38,9 +38,7 @@ public:
         return;
       }
       
-      vector<string> nbs = getNeighbours(node.first, dict);
-      for (int i = 0; i < nbs.size(); i ++) {
-        string nb = nbs[i];
+      for (string nb : getNeighbours(node.first, dict)) {
         if (!visited[nb]) {
           visited[nb] = true;
           q.push(make_pair(nb, node.second + 1));
@@ -66,10 +64,7 @@ public:
 
     visited.insert(start);
     
-    vector<string> nbs = getNeighbours(start, dict);
-    
-    for (int i = 0; i < nbs.size(); i ++) {
-      string nb = nbs[i];
+    for (string nb : getNeighbours(start,dict)) {
       if (visited.find(nb) == visited.end()) {
         dfs(nb, end, path, visited, dict);
         path.pop_back();
