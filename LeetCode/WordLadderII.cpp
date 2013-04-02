@@ -1,88 +1,99 @@
 class Solution {
 public:
-
-    map<string, vector<string> > next;
-    vector<vector<string> > ans;
-    int minimalLevel;
+  vector<vector<string> > ans;
+  int minimalLevel;
+  
+  vector<string> getNeighbours(string start, unordered_set<string> &dict)
+  {
+    vector<string> res;
+    string tmp = start;
     
-    void bfs(string start, string end, unordered_set<string> &dict)
-    {
-        map<string, int> visited;
-        visited[start] = 1;
-        next.clear();
-        
-        queue<pair<string, int> >q;
-        q.push(make_pair(start, 1));
-        
-        minimalLevel = dict.size();
-        
-        while (!q.empty()) {
-            
-            pair<string, int> node = q.front();
-            q.pop();
-            string tmp = node.first;
-            
-            if (node.second + 1 > minimalLevel) return;
-            
-            map<string, bool> tmpmap;
-            
-            for (int i = 0; i < start.length(); i ++) {
-                for (int j = 'a'; j <= 'z'; j ++) {
-                    if (j != node.first[i]) {
-                        tmp[i] = j;
-                        
-                        if (dict.find(tmp) != dict.end() && !tmpmap[tmp] && (!visited[tmp] || visited[tmp] == node.second + 1)) {
-                            if (tmp == end) {
-                                if (minimalLevel >= node.second + 1) {
-                                    minimalLevel = node.second + 1;   
-                                    next[node.first].push_back(tmp);
-                                }
-                            } else {
-                                tmpmap[tmp] = true;
-                                visited[tmp] = node.second + 1;
-                                q.push(make_pair(tmp, node.second + 1));
-                                next[node.first].push_back(tmp);
-                            }
-                        }
-                        
-                        tmp[i] = node.first[i];
-                    }
-                }
-            }
+    for (int i = 0; i < start.length(); i ++) {
+      for (int j = 'a'; j <= 'z'; j ++) {
+        if (j != start[i]) {
+          tmp[i] = j;
+          if (dict.find(tmp) != dict.end()) res.push_back(tmp);
+          tmp[i] = start[i];
         }
-        
+      }
+    }
+    return res;
+  }
+  
+  void getLadderLevel(string start, string end, unordered_set<string> &dict)
+  {
+    map<string, bool> visited;
+    visited[start] = true;
+    
+    queue<pair<string, int> >q;
+    q.push(make_pair(start, 1));
+    
+    minimalLevel = dict.size();
+    
+    while (!q.empty()) {
+      pair<string, int> node = q.front();
+      
+      if (node.first == end) {
+        minimalLevel = node.second;
+        return;
+      }
+      
+      vector<string> nbs = getNeighbours(node.first, dict);
+      for (int i = 0; i < nbs.size(); i ++) {
+        string nb = nbs[i];
+        if (!visited[nb]) {
+          visited[nb] = true;
+          q.push(make_pair(nb, node.second + 1));
+        }
+      }
+      
+      q.pop();
+    }
+  }
+  
+  void dfs(string start, string end, vector<string> & path, unordered_set<string> &visited, unordered_set<string> &dict)
+  {    
+    if (start == end) {
+      path.push_back(start);
+      if (path.size() == minimalLevel) {
+        ans.push_back(path);
+      }
+      return;
+    }
+
+    path.push_back(start);
+    if (path.size() >= minimalLevel) return;
+
+    visited.insert(start);
+    
+    vector<string> nbs = getNeighbours(start, dict);
+    
+    for (int i = 0; i < nbs.size(); i ++) {
+      string nb = nbs[i];
+      if (visited.find(nb) == visited.end()) {
+        dfs(nb, end, path, visited, dict);
+        path.pop_back();
+      }
     }
     
-    void output(string start, string end, vector<string> & strs, int level)
-    {   
-        if (start == end) {
-            strs.push_back(start);
-            if (level == minimalLevel) {
-                ans.push_back(strs);
-            }
-            return;
-        }
-        
-        strs.push_back(start);
-        for (int i = 0; i < next[start].size(); i ++) {
-            output(next[start][i], end, strs, level + 1);
-            strs.pop_back();
-        }
-    }
-
-
-    vector<vector<string>> findLadders(string start, string end, unordered_set<string> &dict) 
-    {
-        // Start typing your C/C++ solution below
-        // DO NOT write int main() function
-        
-        bfs(start, end, dict);
-        vector<string> strs;
-        ans.clear();
-        
-        output(start, end, strs, 1);
-        
-        return ans;
-    }
+    visited.erase(start);
+  }
+  
+  vector<vector<string> > findLadders(string start, string end, unordered_set<string> &dict) 
+  {
+    // Start typing your C/C++ solution below
+    // DO NOT write int main() function
+    
+    getLadderLevel(start, end, dict);
+    vector<string> path;
+    ans.clear();
+    
+    unordered_set<string> visited;
+    dfs(start, end, path, visited, dict);
+    
+    return ans;
+  }
+    
     
 };
+
