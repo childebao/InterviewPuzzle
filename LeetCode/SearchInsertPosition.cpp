@@ -8,8 +8,10 @@ public:
             int mid = b + (e - b) / 2;
             if (A[mid] < target) {
                 b = mid + 1;
-            } else {
+            } else if (A[mid] > target) {
                 e = mid - 1;
+            } else {
+                return mid;
             }
         }
         
