@@ -72,3 +72,68 @@ public:
         return ans;
     }
 };
+
+
+
+
+/* 
+// Another implementation
+
+typedef Int64 uint64_t;
+
+class Solution {
+public:
+    vector<vector<string> > ans;
+    
+    bool check(int n, int r, int c, uint64_t flag, uint64_t & ret)
+    {
+        int result = true;
+        if (flag & (1 << c)) result = false;
+        if (flag & (1 << (n + r + c))) result = false;
+        if (flag & (1 << (4 * n + r - c))) result = false;
+        
+        if (result) {
+            ret = flag;
+            ret |= (1 << c);
+            ret |= (1 << (n + r + c));
+            ret |= (1 << (4 * n + r - c));
+        }
+        
+        return result;
+    }
+    
+    void bitSolve(int n, int curr, uint64_t flag, vector<int> & columns) {
+        if (n == curr) {
+            vector<string> ret(n, string(n, '.'));
+            
+            for (int i = 0; i < n; i ++) {
+                ret[i][columns[i]] = 'Q';
+            }
+            
+            ans.push_back(ret);
+            return;
+        }
+        
+        uint64_t newFlag;
+        for (int i = 0; i < n; i ++) {
+            if (!check(n, curr, i, flag, newFlag)) continue;
+    
+            columns[curr] = i;
+            bitSolve(n, curr + 1, newFlag, columns);
+        }
+    }
+    
+    vector<vector<string> > solveNQueens(int n) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        ans.clear();
+        
+        vector<int> columns(n, -1);
+        
+        bitSolve(n, 0, 0, columns);
+        
+        return ans;
+    }
+};
+
+ */
