@@ -1,6 +1,88 @@
 
 typedef unordered_set<string> curset;
 
+
+class Solution {
+public:
+  
+  map<string, vector<string> > p;
+  vector<vector<string> > ans;
+  
+  vector<string> getNeighbors(string start, curset &dict) {
+    vector<string> ret;
+    
+    string tmp = start;
+    for (int i = 0; i < start.length(); i ++) {
+      for (char j = 'a'; j <= 'z'; j ++) {
+        if (start[i] == j) continue;
+        
+        tmp[i] = j;
+        if (dict.find(tmp) != dict.end()) ret.push_back(tmp);
+      }
+      tmp[i] = start[i];
+    }
+    
+    return ret;
+  }
+  
+  void search(int offset, string cur, string end, vector<string> &path) {
+    path[offset] = cur;
+    
+    if (offset == 0) {
+      ans.push_back(path);
+    } else {
+      for (string pre : p[cur]) {
+        search(offset - 1, pre, end, path);
+      }
+    }
+  }
+  
+  vector<vector<string> > findLadders(string start, string end, curset &dict) {
+    ans.clear();
+    p.clear();
+    
+    map<string, int> minDis;
+    set<string> visited;
+    queue<string> q;
+    
+    q.push(start);
+    visited.insert(start);
+    minDis[start] = 0;
+    
+    while(!q.empty()) {
+      string node = q.front();
+      q.pop();
+      
+      if (node == end) break;
+      
+      vector<string> nbs = getNeighbors(node, dict);
+      for (string nb : nbs) {        
+        if (visited.find(nb) == visited.end()) {
+          q.push(nb);
+          visited.insert(nb);
+          
+          minDis[nb] = minDis[node] + 1;
+        }
+        
+        if (minDis[node] + 1 == minDis[nb]) p[nb].push_back(node);
+      }
+    }
+    
+    if (minDis.find(end) == minDis.end()) return ans;
+    
+    vector<string> path(minDis[end] + 1);
+    search(minDis[end], end, start, path);
+    
+    return ans;
+
+  }
+};
+
+//----------------------------------------
+//Version 2:
+//----------------------------------------
+typedef unordered_set<string> curset;
+
 class Solution {
 public:
   int minimalLevel;
