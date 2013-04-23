@@ -40,6 +40,7 @@ public:
         for (int w = matrix[0].size() - l; w > 0; w --) {
             if (matrix.size() * w <= ans) break;
             
+            // We only need to calculate the maximal continuous subRectange whose height is 1
             int height = 0;
             for (int i = 0; i < matrix.size(); i ++) {
                 if (isRectangle(i, l, w, 1, s)) {
