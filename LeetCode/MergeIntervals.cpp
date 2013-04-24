@@ -15,8 +15,32 @@
 class Solution {
 public:
 
-    
+    // Much simpler version:
     vector<Interval> merge(vector<Interval> &intervals) {
+        vector<Interval> ret(intervals.begin(), intervals.end());
+        
+        if (ret.size() <= 1) return ret;
+        
+        sort(ret.begin(), ret.end(), compare);
+        
+        int b = 0, e = 0;
+        for (int i = 1; i < ret.size(); i ++) {
+            if (ret[e].end < ret[i].start) {
+                ret[b ++] = ret[e];
+                e = i;
+            } else {
+                ret[e].end = max(ret[e].end, ret[i].end);
+            }
+        }
+        
+        ret[b ++] = ret[e];
+        
+        ret.resize(b);
+        
+        return ret;
+    }
+    
+    vector<Interval> merge2(vector<Interval> &intervals) {
         // Start typing your C/C++ solution below
         // DO NOT write int main() function
         vector<Interval> ret(intervals.begin(), intervals.end());
@@ -24,7 +48,6 @@ public:
         if (ret.size() <= 1) return ret;
         
         sort(ret.begin(), ret.end(), compare);
-        
         
         int b = 0, e = 1, maxTail = ret[b].end;
         while (b < e && e < ret.size()) {
@@ -47,7 +70,7 @@ public:
             }
         }
         
-        while (ret.size() > b + 1) ret.pop_back();
+        ret.resize(b + 1);
         
         return ret;
     }
