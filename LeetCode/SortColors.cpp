@@ -1,6 +1,6 @@
 class Solution {
 public:
-    void sortColors(int A[], int n) {
+    void sortColors2(int A[], int n) {
         // Start typing your C/C++ solution below
         // DO NOT write int main() function
         if (n <= 1) return;
@@ -18,6 +18,18 @@ public:
                 mid ++;
                 if (b + mid <= e) swap(A[b], A[b + mid]);
             }
+        }
+    }
+    
+    void sortColors(int A[], int n) {
+        if (n <= 1) return;
+        int b = 0, e = n - 1, i = 0;
+        while (i < n && i <= e) {
+            if (A[i] == 0) {
+                swap(A[b ++], A[i ++]);
+            } else if (A[i] == 2) {
+                swap(A[i], A[e --]);
+            } else i ++; 
         }
     }
 };
