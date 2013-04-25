@@ -9,8 +9,8 @@ Who am I?
 
 * A female coder who is struggling to make herself to keep up with the man's technology world.
 * One Who Would Like to Make the stuff that makes life fun, meaningful, and purposeful.
-* My blog: [Charlene's Blog](http://www.charlene.com/ "Title") 
-* Follow me at my Weibo: [Charlene's Blog](http://weibo.com/charlenejy "Title")
+* My blog: [Charlene's Blog](http://www.tsynka.com/ "Title") 
+* Follow me at my Weibo: [Charlene Jiang](http://weibo.com/charlenejy "Title")
 
 
 How could I contribute to it?
