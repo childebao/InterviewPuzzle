@@ -1,4 +1,5 @@
 /*
+ * TEST mie
     n=4
     P            I           N
     A       L    S       I   G
