@@ -12,6 +12,8 @@ public:
         
         for (int i = 1; i <= word1.size(); i ++) {
             for (int j = 1; j <= word2.size(); j ++) {
+                // dp[i - 1][j]: delete word1[i]
+                // dp[i][j - 1]: insert word2[j] to word1[i + 1]
                 dp[i][j] = min(dp[i - 1][j], dp[i][j - 1]) + 1;
                 
                 if (word1[i - 1] == word2[j - 1]) {
