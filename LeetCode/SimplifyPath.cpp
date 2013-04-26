@@ -1,36 +1,47 @@
 class Solution {
 public:
+    int readNextDire(int start, string &dir, const string &path) {
+        dir = "";
+        
+        for (int i = start + 1; i < path.length(); i ++) {
+            if (path[i] == '/') break;
+            dir += string(1, path[i]);
+        }
+        
+        if (dir == ".") return 0;
+        if (dir == "..") return 2;
+        if (dir.length() > 0) return 1;
+        
+        return 0;
+    }
+    
+    void removeLastDire(string &path) {
+        for (int i = path.length() - 1; i >= 0; i --) {
+            if (path[i] == '/') {
+                path = path.substr(0, i);
+                return;
+            }
+        }
+    }
+    
     string simplifyPath(string path) {
         // Start typing your C/C++ solution below
         // DO NOT write int main() function
-        int pos = 0;
-        vector<string> sk;
-        return "";
-        
-        while (pos < path.length()) {
-            pos ++;
-            int cnt = 0;
-            while (pos < path.length() && path[pos] == '.') {
-                cnt ++;
-                pos ++;
+        string ret = "";
+        string dir = "";
+        for (int i = 0; i < path.length(); i ++) {
+            if (path[i] != '/') continue;
+            
+            int op = readNextDire(i, dir, path);
+            if (op == 1) {
+                ret += "/";
+                ret += dir;
+            } else if (op == 2) {
+                removeLastDire(ret);
             }
-            
-            if (cnt == 2) {
-                if (!sk.empty() {
-                    sk.pop_back();
-                }
-            } else if (cnt == 1) continue;
-            
-            string tmp = "";
-            while (pos < path.length() && path[pos] != '/') tmp += string(1, path[pos]);
-            sk.push_back(tmp);  
         }
         
-        string ans = "/";
-        for (int i = 0; i < sk.size(); i ++) {
-            ans += sk[i];
-        }
-        
-        return ans;
+        if (ret.length() <= 0) return "/";
+        return ret;
     }
 };
