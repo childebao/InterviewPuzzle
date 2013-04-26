@@ -8,37 +8,23 @@
  */
 class Solution {
 public:
-
-    // Split into 3 parts: head, tmp, ans
-    ListNode *reverseList(ListNode *head, ListNode *tail) {
-        if (!head->next || head->next == tail) return head;
+    
+    // Always divide into two parts: left and mid
+    ListNode *reverse(ListNode *left, ListNode *right, ListNode *tail) {
+        if (left == right) return left;
+      
+        ListNode *mid = left->next;
+        left->next = tail;
         
-        ListNode *ans = head->next;
-        head->next = tail;
-        
-        if (!ans->next || ans->next == tail) {
-            ans->next = head;
-            return ans;
+        while (mid!= right) {
+            ListNode *tmp = mid;
+            mid = mid->next;
+            tmp->next = left;
+            left = tmp;
         }
         
-        ListNode *tmp = ans;
-        ans = ans->next;
-        tmp->next = head;
-        head = tmp;
-        
-        while (true) {
-            tmp = ans;
-            
-            if (!ans->next || ans->next == tail) {
-                ans->next = head;
-                return ans;
-            }
-        
-            ans = ans->next;
-            tmp->next = head;
-            head = tmp;
-        }
-        return ans;
+        mid->next = left;
+        return mid;
     }
     
     ListNode *reverseBetween(ListNode *head, int m, int n) {
@@ -63,7 +49,7 @@ public:
             count ++;
         }
         
-        tail->next = reverseList(left, right->next);
+        tail->next = reverse(left, right, right->next);
         
         return ans->next;
     }
