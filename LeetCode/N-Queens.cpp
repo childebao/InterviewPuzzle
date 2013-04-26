@@ -1,8 +1,18 @@
+/**
+ * Given an integer n, return all distinct solutions to the n-queens puzzle.
+ *
+ * Each solution contains a distinct board configuration of the n-queens' placement, 
+ * where 'Q' and '.' both indicate a queen and an empty space respectively.
+ *
+ * For example,
+ * There exist two distinct solutions to the 4-queens puzzle:
+ */
 class Solution {
 public:
     vector<vector<string> > ans;
     
     void solve(int n, int curr, vector<bool> & check, vector<int> & columns) {
+        // curr == n, find a solution
         if (n == curr) {
             vector<string> ret(n, string(n, '.'));
             
@@ -14,11 +24,16 @@ public:
             return;
         }
         
+        // try every possible positions for next queen
         for (int i = 0; i < n; i ++) {
+            // check if this column is used
             if (check[i]) continue;
+
+            // check if the diagnal is used
             if (check[n + i + curr]) continue;
             if (check[4 * n + i - curr]) continue;
             
+            // set mask
             check[i] = true;
             check[n + i + curr] = true;
             check[4 * n + i - curr] = true;
