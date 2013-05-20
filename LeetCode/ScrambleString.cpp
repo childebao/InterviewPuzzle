@@ -1,35 +1,30 @@
 class Solution {
 public:
-    vector<vector<int> > threeSum(vector<int> &num) {
-        // Start typing your C/C++ solution below
-        // DO NOT write int main() funct
-        vector<vector<int> > ans;
-        
-        if (num.size() <= 2) return ans;
-        
-        sort(num.begin(), num.end());
-        
-        for (int i = 0; i < num.size() - 2; i ++) {
-            if (i > 0 && num[i] == num[i - 1]) continue;
+  bool isScramble(string s1, string s2) {   
+    // Start typing your C/C++ solution below   
+    // DO NOT write int main() function   
     
-            int target = 0 - num[i];
-            int b = i + 1, e = num.size() - 1;
-            while (b < e) {
-                int tmp = num[b] + num[e];
-                if (tmp < target) {
-                    b ++;
-                } else if (tmp > target) {
-                    e --;
-                } else {
-                    vector<int> ret(3, 0 - target);
-                    ret[1] = num[b ++];
-                    ret[2] = num[e --];
-                    ans.push_back(ret);
-                    // Remove duplicated pairs...
-                    while (b < num.size() && num[b] == num[b - 1]) b ++;
-                    while (e > b && num[e] == num[e + 1]) e --;
-                }
-            }
-        }
+    if (s1.length() != s2.length()) return false;
+    
+    int len = s1.length();
+    if (len == 1) return s1[0] == s2[0];
+    
+    vector<int> f(26, 0);
+    
+    for (int i = 0; i < len; i ++) { f[s1[i] - 'a'] ++; f[s2[i] - 'a'] --; }
+    
+    for (int i = 0; i < 26; i ++) if (f[i] != 0) return false;
+    
+    for (int i = 1; i < len; i ++) {
+        bool ret = isScramble(s1.substr(0, i), s2.substr(0, i)) 
+        && isScramble(s1.substr(i, len - i), s2.substr(i, len - i));
+        
+        ret = ret || ( isScramble(s1.substr(0, i), s2.substr(len - i, i))
+        && isScramble(s1.substr(i, len - i), s2.substr(0, len - i)) );
+        
+        if (ret) return ret;
     }
+    
+    return false;
+  }
 };
