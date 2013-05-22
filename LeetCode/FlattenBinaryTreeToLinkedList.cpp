@@ -10,42 +10,45 @@
 class Solution {
 public:
 
-    // flatten the subtree, return the last node...
-    TreeNode* flattenSubtree(TreeNode *root) {
+    // flatten the tree, return the root node...
+    TreeNode* flattenTree(TreeNode *root, TreeNode *next) {
         if (!root) return root;
-        
-        if (!root->left && !root->right) return root;
-        
-        if (!root->left) return flattenSubtree(root->right);
-        
-        if (!root->right) {
-            root->right = root->left;
-            root->left = NULL; // Remember to set left child NULL here...
-            return flattenSubtree(root->right);
-        }
-        
-        TreeNode *tmpRightSubtree = root->right;
-        root->right = root->left;
-        root->left = NULL;  // Remember to set left child NULL here...
-        flattenSubtree(root->right)->right = tmpRightSubtree;
-        
-        return flattenSubtree(tmpRightSubtree);
+        next = flattenTree(root->right, next);
+        next = flattenTree(root->left, next);
+
+        root->right = next;
+        root->left = NULL;
+
+        return root;
     }
-    
+   
+    // flatten the tree iteratively
+    void flattenTreeIterative(TreeNode *root) {
+        if (!root || (!root->right && !root->left)) return;
+
+        stack<TreeNode *> stk;
+        if (root->right) stk.push(root->right);
+        if (root->left) stk.push(root->left);
+
+        TreeNode *preNode = root;
+
+        while (!stk.empty()) {
+            if (stk.top()->right) stk.push(stk.top()->right);
+            if (stk.top()->left) stk.push(stk.top()->left);
+
+            preNode->left = NULL;
+            preNode->right = stk.top();
+            preNode = stk.top();
+
+            stk.pop();
+        }
+    }
+
     void flatten(TreeNode *root) {
         // Start typing your C/C++ solution below
         // DO NOT write int main() function
-        
-        while (root && root->left == NULL) root = root->right;
-        
-        if (root) {
-            TreeNode* preRightSubtree = root->right;
-            root->right = root->left;
-            root->left = NULL;  // Remember to set left child NULL here...
-            
-            flattenSubtree(root->right)->right = preRightSubtree;
-            
-            if (preRightSubtree) flattenSubtree(preRightSubtree);
-        }
+
+        flattenTree(root, NULL);
+        flattenTreeIterative(root);
     }
-};
+ };
