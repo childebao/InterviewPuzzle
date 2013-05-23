@@ -1,5 +1,11 @@
 /*
- *
+ Given a string s, partition s such that every substring of the partition is a palindrome.
+
+ Return the minimum cuts needed for a palindrome partitioning of s.
+
+ For example, given s = "aab",
+ Return 1 since the palindrome partitioning ["aa","b"] could be produced using 1 cut.
+ 
  * At first I used an N * N * N time comlexity DP, saves m[i][j], which would TLE.
  * In fact, we just need to save m[i] because we always need a palindrome in the tail.
  *
