@@ -150,7 +150,7 @@ public:
           visited[nb] = true;
           minDis[nb] = minDis[node] + 1;
         }
-        // This line is important: if minDid[nb] < minDis[node] + 1, it would be wrong to push node back
+        // This line is important: if minDis[nb] < minDis[node] + 1, it would be wrong to push node back
         if (minDis[node] + 1 == minDis[nb]) previous[nb].push_back(node);
       }
     }

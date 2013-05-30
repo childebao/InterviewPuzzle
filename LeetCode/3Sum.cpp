@@ -47,7 +47,7 @@ public:
                     ans.push_back(ret);
                     // Remove duplicated pairs...
                     while (b < num.size() && num[b] == num[b - 1]) b ++;
-                    while (e > b && num[e] == num[e + 1]) e --;
+                    //while (e > b && num[e] == num[e + 1]) e --;
                 }
             }
         }

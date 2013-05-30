@@ -1,36 +1,33 @@
+/**
+ Given an array of strings, return all groups of strings that are anagrams.
+
+ Note: All inputs will be in lower-case.
+ */
+
 class Solution {
 public:
-
-    int cmp(string a, string b) {
-        sort(a.begin(), a.end());
-        sort(b.begin(), b.end());
-        
-        if (a < b) return 2;
-        else if (a == b) return 1;
-        return 0;
+    string getAnagram(string s) {
+        sort(s.begin(), s.end());
+        return s;
     }
     
-    // The comparator of vector's sort()...
-    bool operator () (const string & a, const string & b) {
-        return cmp(a, b) > 0;
-    }
-    
+    // Another solution using map
     vector<string> anagrams(vector<string> &strs) {
         // Start typing your C/C++ solution below
         // DO NOT write int main() function
         vector<string> ans;
         
-        sort(strs.begin(), strs.end(), Solution());
+        map<string, vector<string> > mp;
         
-        for (int i = 0; i < strs.size() - 1;) {
-            
-            if (cmp(strs[i], strs[i + 1]) == 1) {
-                ans.push_back(strs[i ++]);
-                while (i < strs.size() && cmp(strs[i], strs[i - 1]) == 1) {
-                    ans.push_back(strs[i ++]);
+        for (int i = 0; i < strs.size(); i ++) {
+            mp[getAnagram(strs[i])].push_back(strs[i]);
+        }
+        
+        for (map<string, vector<string> >::iterator it = mp.begin(); it != mp.end(); it ++) {
+            if (it->second.size() > 1) {
+                for (int i = 0; i < it->second.size(); i ++) {
+                    ans.push_back(it->second[i]);
                 }
-            } else {
-                i ++;  // Be careful you increment the i here...
             }
         }
         

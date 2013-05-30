@@ -1,7 +1,7 @@
 class Solution {
 public:
 
-    bool searchDFS(int r, int c, int curr, const string &target, vector<vector<char> > &board, vector<vector<bool> > visited) {
+    bool searchDFS(int r, int c, int curr, const string &target, const vector<vector<char> > &board, vector<vector<bool> > &visited) {
                 
         if (curr >= target.length()) return true;
     

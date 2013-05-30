@@ -1,3 +1,12 @@
+/**
+ Given two binary strings, return their sum (also a binary string).
+
+ For example,
+ a = "11"
+ b = "1"
+ Return "100".
+ */
+
 class Solution {
 public:
     string addBinary(string a, string b) {
@@ -13,7 +22,9 @@ public:
             if (tmp > 1) {
                 delta = 1;
                 tmp -= 2;  //Here, tmp -= 2, tmp could be 2 or 3...
-            } else delta = 0; //Don't forget else...
+            } else {
+                delta = 0; //Don't forget else...
+            }
             
             a[j --] = tmp + '0';
         }
@@ -23,7 +34,9 @@ public:
             if (tmp > 1) {
                 delta = 1;
                 tmp -= 2;
-            } else delta = 0; // Don't forget else...
+            } else {
+                delta = 0; // Don't forget else...
+            }
             
             a[j --] = tmp + '0';
         }

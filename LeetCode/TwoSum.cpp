@@ -11,10 +11,36 @@
  */
 class Solution {
 public:
+    // O(N * logN)
     vector<int> twoSum(vector<int> &numbers, int target) {
-        // Start typing your C/C++ solution below
-        // DO NOT write int main() function
+        vector<int> ans;
+        set<pair<int, int> > s;
+        for (int i = 0; i < numbers.size(); i ++) {
+            s.insert(make_pair(numbers[i], i + 1));
+        }
         
+        set<pair<int, int> >::iterator itb = s.begin(), ite = --s.end();
+        
+        while (itb != ite) {
+            int sum = itb->first + ite->first;
+            
+            if (sum == target) {
+                ans.push_back(itb->second);
+                ans.push_back(ite->second);
+                if (ans[0] > ans[1]) swap(ans[0], ans[1]);
+                return ans;
+            } else if (sum < target) {
+                ++itb;
+            } else {
+                --ite;
+            }
+        }
+        
+        return ans;
+    }
+    
+    // O(N * N)
+    vector<int> twoSum2(vector<int> &numbers, int target) {
         // clear, self-descript code is always welcome!
         vector<int> ans;
         
